@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Поймай свою удачу за хвост</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="popup" class="overlay">
+  <div class="popup">
+    <h2>Поймай свою удачу за хвост</h2>
+    <input id="firstName" placeholder="Имя">
+    <input id="lastName" placeholder="Фамилия">
+    <input id="email" type="email" placeholder="E-mail">
+
+    <button id="continueBtn">Продолжить</button>
+  </div>
+</div>
+
+<div class="page">
+  <h1>Поймай свою удачу за хвост</h1>
+
+  <div class="wheel-wrapper">
+        <img id="wheel" class="wheel" src="ferris-wheel.svg" alt="">
+    <div id="birds"></div>
+  </div>
+
+  <button id="spinBtn">Получить подарок</button>
+</div>
+
+<div id="resultPopup" class="overlay hidden">
+  <div class="popup">
+    <h2>Поздравляем!</h2>
+
+    <p id="giftText"></p>
+
+    <button id="closeResult">
+      Закрыть
+    </button>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
+
