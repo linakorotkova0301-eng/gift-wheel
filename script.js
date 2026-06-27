@@ -12,9 +12,7 @@ const closeResult = document.getElementById("closeResult");
 let currentRotation = 0;
 let user = {};
 
-// --------------------
-// КНОПКА "ПРОДОЛЖИТЬ"
-// --------------------
+// --- continue ---
 continueBtn.onclick = () => {
     const firstName = document.getElementById("firstName").value.trim();
     const lastName = document.getElementById("lastName").value.trim();
@@ -30,9 +28,7 @@ continueBtn.onclick = () => {
     popup.style.display = "none";
 };
 
-// --------------------
-// ВРАЩЕНИЕ КОЛЕСА
-// --------------------
+// --- wheel ---
 function spinWheel() {
     currentRotation += 1800 + Math.random() * 360;
 
@@ -40,9 +36,7 @@ function spinWheel() {
     wheel.style.transform = `rotate(${currentRotation}deg)`;
 }
 
-// --------------------
-// ЗАПРОС В GOOGLE SCRIPT
-// --------------------
+// --- request ---
 async function getGiftFromServer() {
     const formData = new URLSearchParams();
     formData.append("firstName", user.firstName);
@@ -57,9 +51,7 @@ async function getGiftFromServer() {
     return await response.json();
 }
 
-// --------------------
-// КНОПКА "ПОЛУЧИТЬ ПОДАРОК"
-// --------------------
+// --- spin ---
 spinBtn.onclick = async () => {
     spinBtn.disabled = true;
 
@@ -75,9 +67,7 @@ spinBtn.onclick = async () => {
                 return;
             }
 
-            giftText.innerHTML =
-                `Ваш номер подарка <strong>№${result.gift}</strong>`;
-
+            giftText.innerHTML = `Ваш номер подарка <strong>№${result.gift}</strong>`;
             resultPopup.classList.remove("hidden");
 
             spinBtn.disabled = false;
@@ -93,9 +83,7 @@ spinBtn.onclick = async () => {
     }
 };
 
-// --------------------
-// ЗАКРЫТИЕ РЕЗУЛЬТАТА
-// --------------------
+// --- close ---
 closeResult.onclick = () => {
     resultPopup.classList.add("hidden");
 };
