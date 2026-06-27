@@ -1,5 +1,5 @@
 const SCRIPT_URL =
-"https://script.google.com/macros/s/AKfycbxldCDnmEAXdH5EHdgZqxQiKVuchub2f0JBCg7wRhObh4z2xx4KqLKHDeKH5TVyr0rF/exec";
+"https://script.google.com/macros/s/AKfycbyQu1VVjCtL1Ll0uGV0F00fnR0pZoJOitMNiU7xV26shFnD0HSD4PIseB895jQ1U3Dd/exec";
 
 const popup = document.getElementById("popup");
 const continueBtn = document.getElementById("continueBtn");
@@ -12,7 +12,9 @@ const closeResult = document.getElementById("closeResult");
 let currentRotation = 0;
 let user = {};
 
-// --- continue ---
+// -------------------
+// ПОДТВЕРЖДЕНИЕ ДАННЫХ
+// -------------------
 continueBtn.onclick = () => {
     const firstName = document.getElementById("firstName").value.trim();
     const lastName = document.getElementById("lastName").value.trim();
@@ -28,7 +30,9 @@ continueBtn.onclick = () => {
     popup.style.display = "none";
 };
 
-// --- wheel ---
+// -------------------
+// ВРАЩЕНИЕ КОЛЕСА
+// -------------------
 function spinWheel() {
     currentRotation += 1800 + Math.random() * 360;
 
@@ -36,7 +40,9 @@ function spinWheel() {
     wheel.style.transform = `rotate(${currentRotation}deg)`;
 }
 
-// --- request ---
+// -------------------
+// ЗАПРОС В APPS SCRIPT
+// -------------------
 async function getGiftFromServer() {
     const formData = new URLSearchParams();
     formData.append("firstName", user.firstName);
@@ -51,7 +57,9 @@ async function getGiftFromServer() {
     return await response.json();
 }
 
-// --- spin ---
+// -------------------
+// КНОПКА "ПОЛУЧИТЬ ПОДАРОК"
+// -------------------
 spinBtn.onclick = async () => {
     spinBtn.disabled = true;
 
@@ -83,7 +91,9 @@ spinBtn.onclick = async () => {
     }
 };
 
-// --- close ---
+// -------------------
+// ЗАКРЫТЬ ОКНО РЕЗУЛЬТАТА
+// -------------------
 closeResult.onclick = () => {
     resultPopup.classList.add("hidden");
 };
