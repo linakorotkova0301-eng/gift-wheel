@@ -1,5 +1,5 @@
 const SCRIPT_URL =
-"https://script.google.com/macros/s/AKfycbx_xL0kvBclqV_ydlUjd9BylmZTCB1YHJLCCH6NHpTmKUlzgwQxKX60SaIRQQcfUe_-/exec";
+"https://script.google.com/macros/s/AKfycbyQu1VVjCtL1Ll0uGV0F00fnR0pZoJOitMNiU7xV26shFnD0HSD4PIseB895jQ1U3Dd/exec";
 
 const popup = document.getElementById("popup");
 const continueBtn = document.getElementById("continueBtn");
