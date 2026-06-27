@@ -1,158 +1,150 @@
-const popup =
-document.getElementById("popup");
+const SCRIPT_URL =
+"https://script.google.com/macros/s/AKfycbx_xL0kvBclqV_ydlUjd9BylmZTCB1YHJLCCH6NHpTmKUlzgwQxKX60SaIRQQcfUe_-/exec";
 
-const continueBtn =
-document.getElementById("continueBtn");
-
-const wheel =
-document.getElementById("wheel");
-
-const spinBtn =
-document.getElementById("spinBtn");
-
-const resultPopup =
-document.getElementById("resultPopup");
-
-const giftText =
-document.getElementById("giftText");
-
-const closeResult =
-document.getElementById("closeResult");
+const popup = document.getElementById("popup");
+const continueBtn = document.getElementById("continueBtn");
+const wheel = document.getElementById("wheel");
+const spinBtn = document.getElementById("spinBtn");
+const resultPopup = document.getElementById("resultPopup");
+const giftText = document.getElementById("giftText");
+const closeResult = document.getElementById("closeResult");
 
 let currentRotation = 0;
 
 let user = {};
 
-/* --------------------------
-   ПОПАП С ДАННЫМИ
---------------------------- */
-
 continueBtn.onclick = () => {
 
     const firstName =
-    document.getElementById("firstName").value.trim();
+        document.getElementById("firstName").value.trim();
 
     const lastName =
-    document.getElementById("lastName").value.trim();
+        document.getElementById("lastName").value.trim();
 
     const email =
-    document.getElementById("email").value.trim();
+        document.getElementById("email").value.trim();
 
     if (!firstName || !lastName || !email) {
 
         alert("Заполните все поля");
+
         return;
+
     }
 
     user = {
+
         firstName,
+
         lastName,
+
         email
+
     };
 
     popup.style.display = "none";
+
 };
-
-/* --------------------------
-   УНИКАЛЬНЫЕ НОМЕРА 1-40
---------------------------- */
-
-const availableNumbers =
-Array.from(
-    { length: 40 },
-    (_, i) => i + 1
-);
-
-function getGift() {
-
-    if (availableNumbers.length === 0) {
-        return null;
-    }
-
-    const randomIndex =
-    Math.floor(
-        Math.random() *
-        availableNumbers.length
-    );
-
-    const giftNumber =
-    availableNumbers[randomIndex];
-
-    availableNumbers.splice(
-        randomIndex,
-        1
-    );
-
-    return giftNumber;
-}
-
-/* --------------------------
-   ВРАЩЕНИЕ КОЛЕСА
---------------------------- */
 
 function spinWheel() {
 
     currentRotation +=
-    1800 +
-    Math.random() * 360;
+        1800 +
+        Math.random() * 360;
 
     wheel.style.transition =
-    "transform 5s ease-out";
+        "transform 5s ease-out";
 
     wheel.style.transform =
-    `rotate(${currentRotation}deg)`;
+        `rotate(${currentRotation}deg)`;
+
 }
 
-/* --------------------------
-   КНОПКА ПОЛУЧИТЬ ПОДАРОК
---------------------------- */
+async function getGiftFromServer() {
 
-spinBtn.onclick = () => {
+    const response =
+        await fetch(SCRIPT_URL, {
 
-    const gift =
-    getGift();
+            method: "POST",
 
-    if (!gift) {
+            headers: {
 
-        alert(
-            "Все номера уже выданы"
-        );
+                "Content-Type": "application/json"
 
-        return;
-    }
+            },
+
+            body: JSON.stringify({
+
+                firstName: user.firstName,
+
+                lastName: user.lastName,
+
+                email: user.email
+
+            })
+
+        });
+
+    return await response.json();
+
+}
+
+spinBtn.onclick = async () => {
 
     spinBtn.disabled = true;
 
     spinWheel();
 
-    setTimeout(() => {
+    try {
 
-        giftText.innerHTML =
-        `Ваш номер подарка <strong>№${gift}</strong>`;
+        const result =
+            await getGiftFromServer();
 
-        resultPopup.classList.remove(
-            "hidden"
-        );
+        setTimeout(() => {
 
-        spinBtn.disabled = false;
+            if (!result.success) {
 
-        console.log({
-            name: user.firstName,
-            surname: user.lastName,
-            email: user.email,
-            gift: gift
-        });
+                alert(result.message);
 
-    }, 5000);
+                spinBtn.disabled = false;
+
+                return;
+
+            }
+
+            giftText.innerHTML =
+                `Ваш номер подарка <strong>№${result.gift}</strong>`;
+
+            resultPopup.classList.remove(
+                "hidden"
+            );
+
+            spinBtn.disabled = false;
+
+        }, 5000);
+
+    }
+
+    catch (e) {
+
+        setTimeout(() => {
+
+            alert("Ошибка соединения с сервером");
+
+            console.error(e);
+
+            spinBtn.disabled = false;
+
+        }, 5000);
+
+    }
+
 };
-
-/* --------------------------
-   ЗАКРЫТЬ РЕЗУЛЬТАТ
---------------------------- */
 
 closeResult.onclick = () => {
 
     resultPopup.classList.add(
         "hidden"
     );
+
 };
