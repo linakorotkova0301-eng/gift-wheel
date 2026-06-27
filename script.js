@@ -67,13 +67,16 @@ async function getGiftFromServer() {
 
             method: "POST",
 
-            headers: {
+const formData = new URLSearchParams();
 
-                "Content-Type": "application/json"
+formData.append("firstName", user.firstName);
+formData.append("lastName", user.lastName);
+formData.append("email", user.email);
 
-            },
-
-            body: JSON.stringify({
+const response = await fetch(SCRIPT_URL, {
+    method: "POST",
+    body: formData
+});
 
                 firstName: user.firstName,
 
